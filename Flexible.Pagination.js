@@ -43,7 +43,8 @@
 var Flexible = (typeof Flexible === 'undefined') ? {} : Flexible;
 
 Flexible.Pagination = function(options){
-    var defaultOption = {};
+
+    var pager = this, defaultOption = {};
     defaultOption.pagingControlsContainer = "#pagingControls";
     defaultOption.pagingContainer = "#content";
     defaultOption.itemSelector = ".item:visible"; //A Filtered Visible Paragraphs
@@ -77,6 +78,12 @@ Flexible.Pagination = function(options){
     defaultOption.css.btnLastClass = defaultOption.css.btnNumberingClass;
     defaultOption.css.btnNextClass = defaultOption.css.btnNumberingClass;
     defaultOption.css.btnPreviousClass = defaultOption.css.btnNumberingClass;
+    /**@Advanced Implementation default using a custom Json Data Source */
+    defaultOption.dataSource = {};
+    /**@Using_Ajax as DataSource */
+    defaultOption.ajax = {};
+    defaultOption.ajax.params = {};
+    defaultOption.ajax.url = '';
 
 
     if (typeof options === 'undefined') {
@@ -85,6 +92,11 @@ Flexible.Pagination = function(options){
 
     var getOption = function(field){
         return (typeof options[field] === 'undefined') ? defaultOption[field] : options[field];
+    };
+
+    var getAjaxOption = function(ajaxFieldName){
+        var value = getOption('ajax'), defaultValue = defaultOption['ajax'];
+        return (typeof value[ajaxFieldName] === 'undefined') ? defaultValue[ajaxFieldName] : value[ajaxFieldName];
     };
 
     var getCssOption = function(cssFieldName){
@@ -111,7 +123,11 @@ Flexible.Pagination = function(options){
     this.btnLastText = getOption('btnLastText');
     this.btnPreviousText = getOption('btnPreviousText');
     this.btnNextText = getOption('btnNextText');
-    this.css = {};
+    this.dataSource = getOption('dataSource');
+    this.ajax = getOption('ajax');
+    this.ajax.params = getAjaxOption('params');
+    this.ajax.url = getAjaxOption('url');
+    this.css = getOption('css');
     this.css.paginationLayout = getCssOption('paginationLayout');
     this.css.btnNumberingClass = getCssOption('btnNumberingClass');
     this.css.btnActiveClass = getCssOption('btnActiveClass');
@@ -164,15 +180,19 @@ Flexible.Pagination = function(options){
      * @returns {*}
      */
     this.getData = function(){
-        var pager = this, words = pager.searchPhrase.toLowerCase().split(" ");
+        var words = pager.searchPhrase.toLowerCase().split(" "), dataSource = pager.itemSelector;
+        if (pager.dataSource.length > 0){
+            /**@Advanced Implementation Using a Custom Json Data Source */
+            dataSource = pager.dataSource;
+        }
         if (pager.searchPhrase.length > 0){
             /**@Filter By Search Phrase */
-            return pager.itemSelector.filter(function(key, value){
+            return dataSource.filter(function(key, value){
                 return pager.search($(value).html().replace(/<[^>]+>/g,"").toLowerCase(), words);
             });
         }
         /**@NoFilter */
-        return pager.itemSelector;
+        return dataSource;
     };
 
     /**
@@ -182,22 +202,43 @@ Flexible.Pagination = function(options){
         if (this.controller == null) {
             this.init();
         }
-        var data = this.getData(), totalItems = data.length;
-
-        /**@numbersPerPages */
-        if (this.itemsPerPage=='all'){
-            this.itemsPerPage = totalItems;
+        var html = '', start = 0, end = 'all';
+        if (this.itemsPerPage != 'all'){
+            start = (this.currentPage-1) * this.itemsPerPage;
+            end = start+this.itemsPerPage;
         }
 
-        var html = '', start = (this.currentPage-1) * this.itemsPerPage, end = start+this.itemsPerPage;
-        data.slice(start, end).each(function(){ html += this.outerHTML; });
-        this.pagingContainer.html(html);
+        if (this.ajax.url != '' && this.ajax.url!='undefined'){
+            /**@Ajax Implementation */
+            var response = {html:'', currentPage:this.currentPage, start:start, end:end, totalItems:0};
+            this.ajax.params = $.extend(this.ajax.params, response);
+            $.post(this.ajax.url, this.ajax.params, function(response){
+                pager.pagingContainer.html(response.html);
+                if (pager.itemsPerPage == 'all'){
+                    pager.itemsPerPage = response.totalItems;
+                    totalItems = response.totalItems;
+                    start = response.start;
+                    end = response.end;
+                }
+            }, 'json');
+        }
+        else{
+            /**@Basic_OR_Advanced Implementation */
+            var data = this.getData(), totalItems = data.length;
+            if (this.itemsPerPage=='all'){
+                this.itemsPerPage = totalItems;
+                start = (this.currentPage-1) * this.itemsPerPage;
+                end = start+this.itemsPerPage;
+            }
+            data.slice(start, end).each(function(){ html += this.outerHTML; });
+            this.pagingContainer.html(html);
+        }
 
         $(this.pagingControlsContainer).html('');
         this.numOfPages = 0;
-        if (totalItems > this.itemsPerPage){
+        if (totalItems > pager.itemsPerPage){
             /** Auto-Calculate the number of Pages. */
-            this.numOfPages = Math.ceil(totalItems / this.itemsPerPage);
+            this.numOfPages = Math.ceil(totalItems / pager.itemsPerPage);
             /**@render Pagination Controls */
             this.renderControls();
         }
