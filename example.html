@@ -1,0 +1,124 @@
+<html><head>
+
+                 <meta charset="utf-8">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Test Page</title> 
+				<link href="/path_to/bootstrap/css/bootstrap.css" rel="stylesheet">
+                <link href="/path_to/font-awesome/css/font-awesome.css" rel="stylesheet">
+                <script src="/path_to/jquery/jquery.js"></script>
+                <script src="/path_to/bootstrap/js/bootstrap.js"></script>
+                <script src="Flexible.Pagination.js"></script>
+</head>
+<body>
+<style>.hide{display: none;}</style>
+
+<div id="content">
+
+<div class="result ">
+<p>loginEmail : debascoguy@gmail.com</p>
+<p>loginUsername : debascoguy</p>
+<p>email : debascoguy@gmail.com</p>
+<p>username : debascoguy</p>
+</div>
+<div class="result ">
+<p>loginEmail : debascoguy@gmail.com</p>
+<p>loginUsername : debascoguy</p>
+<p>email : debascoguy@gmail.com</p>
+<p>username : debascoguy</p>
+</div>
+<div class="result ">
+<p>loginEmail : debascoguy@gmail.com</p>
+<p>loginUsername : debascoguy</p>
+<p>email : debascoguy@gmail.com</p>
+<p>username : debascoguy</p>
+</div>
+<div class="result ">
+<p>loginEmail : debascoguy@gmail.com</p>
+<p>loginUsername : debascoguy</p>
+<p>email : debascoguy@gmail.com</p>
+<p>username : debascoguy</p>
+</div>
+<div class="result ">
+<p>loginEmail : debascoguy@gmail.com</p>
+<p>loginUsername : debascoguy</p>
+<p>email : debascoguy@gmail.com</p>
+<p>username : debascoguy</p>
+</div>
+<div class="result ">
+<p>loginEmail : debascoguy@gmail.com</p>
+<p>loginUsername : debascoguy</p>
+<p>email : debascoguy@gmail.com</p>
+<p>username : debascoguy</p>
+</div>
+<div class="result ">
+<p>loginEmail : debascoguy@gmail.com</p>
+<p>loginUsername : debascoguy</p>
+<p>email : debascoguy@gmail.com</p>
+<p>username : debascoguy</p>
+</div>
+<div class="result ">
+<p>loginEmail : debascoguy@gmail.com</p>
+<p>loginUsername : debascoguy</p>
+<p>email : debascoguy@gmail.com</p>
+<p>username : debascoguy</p>
+</div>
+<div class="result ">
+<p>loginEmail : debascoguy@gmail.com</p>
+<p>loginUsername : debascoguy</p>
+<p>email : debascoguy@gmail.com</p>
+<p>username : debascoguy</p>
+</div>
+<div class="result ">
+<p>loginEmail : debascoguy@gmail.com</p>
+<p>loginUsername : debascoguy</p>
+<p>email : debascoguy@gmail.com</p>
+<p>username : debascoguy</p>
+</div>
+<div class="result ">
+<p>loginEmail : debascoguy@gmail.com</p>
+<p>loginUsername : debascoguy</p>
+<p>email : debascoguy@gmail.com</p>
+<p>username : debascoguy</p>
+</div>
+<div class="result ">
+<p>loginEmail : debascoguy@gmail.com</p>
+<p>loginUsername : debascoguy</p>
+<p>email : debascoguy@gmail.com</p>
+<p>username : debascoguy</p>
+</div>
+
+</div>
+<div id="pagingControls"></div>
+<div id="showingInfo"></div>
+
+    <script>
+    $(function() {
+
+        var flexiblePagination = $('#content').flexiblePagination({
+            itemsPerPage : 1,
+            itemSelector : 'div.result:visible',
+            pagingControlsContainer : '#pagingControls',
+            showingInfoSelector : '#showingInfo',
+            css: {
+                btnNumberingClass: 'btn btn-sm btn-success',
+                btnFirstClass: 'btn btn-sm btn-success',
+                btnLastClass: 'btn btn-sm btn-success',
+                btnNextClass: 'btn btn-sm btn-success',
+                btnPreviousClass: 'btn btn-sm btn-success'
+            }
+        });
+        flexiblePagination.getController().onPageClick = function(pageNum, e){
+            console.log('You Clicked Page: '+pageNum)
+        };
+
+// Direct JS Object method of using the FlexiblePagination
+//        var pager = new Flexible.Pagination();
+//        pager.itemsPerPage = 1;
+//        pager.pagingContainer = '#content';
+//        pager.itemSelector = 'div.result:visible';  //That is, Select and paginate only the filtered visible '.result' div.
+//        pager.pagingControlsContainer = '#pagingControls';
+//        pager.showCurrentPage();
+    });
+
+    </script>
+</body></html>
