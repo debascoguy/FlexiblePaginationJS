@@ -1,11 +1,11 @@
 /**
  * @Created By: Ademola Aina
- * @Email:  debascoguy@gmail.com
+ * @Email:  aina.ademolac@gmaill.com
  * @Year :  2018 Production
  *
  * DOCUMENTATION:
  * ==============
- * www.elementsoft.co/code-products/js/simple-table-data
+ * www.noahsarkeducation.co/code-lab/js/flexible-pagination
  *
  * LICENSE:
  * ========
@@ -49,7 +49,7 @@ Flexible.Pagination = function(options){
     defaultOption.pagingContainer = "#content";
     defaultOption.itemSelector = ".item:visible"; //A Filtered Visible Paragraphs
     defaultOption.itemsPerPageSelector = ".itemPerPageDropDown"; //Paragraphs Per Page
-    defaultOption.itemsPerPage = 1; //Paragraphs Per Page
+    defaultOption.itemsPerPage = 1;
     defaultOption.currentPage = 1;
     defaultOption.searchBoxSelector = '.searchBox';
     defaultOption.searchPhrase = '';
