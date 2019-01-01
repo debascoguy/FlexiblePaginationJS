@@ -1,6 +1,6 @@
 /**
  * @Created By: Ademola Aina
- * @Email:  aina.ademolac@gmaill.com
+ * @Email:  aina.ademolac@gmail.com
  * @Year :  2018 Production
  *
  * DOCUMENTATION:
@@ -244,7 +244,9 @@ Flexible.Pagination = function(options){
         }
 
         if ($(this.showingInfoSelector)[0]){
-            $(this.showingInfoSelector).html("Showing "+(start+1)+' to '+(end > totalItems ? totalItems : end)+' of '+totalItems+' Entries');
+            $(this.showingInfoSelector).html("Showing "+(totalItems > 0 ? start+1 : 0)+' to '+
+                (end > totalItems ? totalItems : end)+' of '+totalItems+' Entries'
+            );
         }
     };
 
@@ -456,4 +458,3 @@ Flexible.PaginationController = function(pager){
     };
 
 })(jQuery);
-
