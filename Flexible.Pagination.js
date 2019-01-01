@@ -5,7 +5,7 @@
  *
  * DOCUMENTATION:
  * ==============
- * www.noahsarkeducation.co/code-lab/js/flexible-pagination
+ * www.noahsarkeducation.com/code-lab/js/flexible-pagination
  *
  * LICENSE:
  * ========
@@ -14,7 +14,7 @@
  *
  * Open source under the BSD License.
  *
- * Copyright © 2018 Ademola Aina
+ * Copyright Â© 2018 Ademola Aina
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
