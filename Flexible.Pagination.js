@@ -136,6 +136,11 @@ Flexible.Pagination = function(options){
     this.css.btnNextClass = getCssOption('btnNextClass');
     this.css.btnPreviousClass = getCssOption('btnPreviousClass');
 
+    this.css.paginationLayout = "<style> " +
+                                    this.pagingControlsContainer+" ul{display:inline; padding-left: 0.2em} " +
+                                    this.pagingControlsContainer+" li{display:inline; padding-left: 0.2em}" +
+                                "</style>";
+
     /**Private Property Below */
     this.instanceId = Math.floor(Math.random() * 20);
     this.controller = null;
@@ -458,3 +463,4 @@ Flexible.PaginationController = function(pager){
     };
 
 })(jQuery);
+
