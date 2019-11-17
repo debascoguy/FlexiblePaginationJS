@@ -238,7 +238,6 @@ Flexible.Pagination = function(options){
             var request_params = {status:true, search: pager.searchPhrase, currentPage:pager.currentPage, start:start, end:end, totalItems:totalItems};
             pager.ajax.params = $.extend(this.ajax.params, request_params);
             $.post(pager.ajax.url, pager.ajax.params, function(response){
-                console.log(response);
                 html = pager.ajax.onSuccessCallBack(response);
                 if (pager.itemsPerPage == 'all'){
                     pager.itemsPerPage = response.totalItems;
