@@ -84,7 +84,14 @@ Flexible.Pagination = function(options){
     defaultOption.ajax = {};
     defaultOption.ajax.params = {};
     defaultOption.ajax.url = '';
-
+    defaultOption.ajax.onSuccessCallBack = function(response){
+        console.log(response);
+        return response;
+    };
+    defaultOption.ajax.onFailureCallBack = function(error){
+        alert("Ajax Error  - See Console for details!");
+        console.log(error);
+    };
 
     if (typeof options === 'undefined') {
         options = defaultOption;
@@ -127,6 +134,8 @@ Flexible.Pagination = function(options){
     this.ajax = getOption('ajax');
     this.ajax.params = getAjaxOption('params');
     this.ajax.url = getAjaxOption('url');
+    this.ajax.onSuccessCallBack = getAjaxOption("onSuccessCallBack");
+    this.ajax.onFailureCallBack = getAjaxOption("onFailureCallBack");
     this.css = getOption('css');
     this.css.paginationLayout = getCssOption('paginationLayout');
     this.css.btnNumberingClass = getCssOption('btnNumberingClass');
@@ -181,7 +190,7 @@ Flexible.Pagination = function(options){
     };
 
     /**
-     * @getTableRowData
+     * @getRowData
      * @returns {*}
      */
     this.getData = function(){
@@ -200,58 +209,67 @@ Flexible.Pagination = function(options){
         return dataSource;
     };
 
+
+    this.showingInfoHandler = function(start, end, totalItems){
+        if ($(pager.showingInfoSelector)[0]){
+            $(pager.showingInfoSelector).html("Showing "+(totalItems > 0 ? start+1 : 0)+' to '+
+                (end > totalItems ? totalItems : end)+' of '+totalItems+' Entries'
+            );
+        }
+    };
+
+
     /**
      * @showCurrentPage
      */
     this.showCurrentPage = function(){
-        if (this.controller == null) {
-            this.init();
+        if (pager.controller == null) {
+            pager.init();
         }
-        var html = '', start = 0, end = 'all';
-        if (this.itemsPerPage != 'all'){
-            start = (this.currentPage-1) * this.itemsPerPage;
-            end = start+this.itemsPerPage;
+        var html = '', start = 0, end = 'all', totalItems = 0;
+        if (pager.itemsPerPage != 'all'){
+            start = (pager.currentPage-1) * this.itemsPerPage;
+            end = start+pager.itemsPerPage;
         }
 
         if (this.ajax.url != '' && this.ajax.url!='undefined'){
+            totalItems = end-start;
             /**@Ajax Implementation */
-            var response = {html:'', currentPage:this.currentPage, start:start, end:end, totalItems:0};
-            this.ajax.params = $.extend(this.ajax.params, response);
-            $.post(this.ajax.url, this.ajax.params, function(response){
-                pager.pagingContainer.html(response.html);
+            var request_params = {status:true, search: pager.searchPhrase, currentPage:pager.currentPage, start:start, end:end, totalItems:totalItems};
+            pager.ajax.params = $.extend(this.ajax.params, request_params);
+            $.post(pager.ajax.url, pager.ajax.params, function(response){
+                console.log(response);
+                html = pager.ajax.onSuccessCallBack(response);
                 if (pager.itemsPerPage == 'all'){
                     pager.itemsPerPage = response.totalItems;
-                    totalItems = response.totalItems;
-                    start = response.start;
-                    end = response.end;
                 }
-            }, 'json');
+                totalItems = response.totalItems;
+                start = (pager.currentPage-1) * pager.itemsPerPage;
+                end = start+pager.itemsPerPage;
+                pager.pagingContainer.html(html);
+                pager.showingInfoHandler(start, end, totalItems);
+            }, 'json').fail(pager.ajax.onFailureCallBack);
         }
         else{
             /**@Basic_OR_Advanced Implementation */
-            var data = this.getData(), totalItems = data.length;
-            if (this.itemsPerPage=='all'){
-                this.itemsPerPage = totalItems;
-                start = (this.currentPage-1) * this.itemsPerPage;
-                end = start+this.itemsPerPage;
+            var data = pager.getData(); totalItems = data.length;
+            if (pager.itemsPerPage=='all'){
+                pager.itemsPerPage = totalItems;
+                start = (pager.currentPage-1) * this.itemsPerPage;
+                end = start+pager.itemsPerPage;
             }
             data.slice(start, end).each(function(){ html += this.outerHTML; });
-            this.pagingContainer.html(html);
+            pager.pagingContainer.html(html);
+            pager.showingInfoHandler(start, end, totalItems);
         }
 
-        $(this.pagingControlsContainer).html('');
-        this.numOfPages = 0;
+        $(pager.pagingControlsContainer).html('');
+        pager.numOfPages = 0;
         if (totalItems > pager.itemsPerPage){
             /** Auto-Calculate the number of Pages. */
-            this.numOfPages = Math.ceil(totalItems / pager.itemsPerPage);
+            pager.numOfPages = Math.ceil(totalItems / pager.itemsPerPage);
             /**@render Pagination Controls */
-            this.renderControls();
-        }
-
-        if ($(this.showingInfoSelector)[0]){
-            $(this.showingInfoSelector).html("Showing "+(totalItems > 0 ? start+1 : 0)+' to '+
-                (end > totalItems ? totalItems : end)+' of '+totalItems+' Entries'
-            );
+            pager.renderControls();
         }
     };
 
