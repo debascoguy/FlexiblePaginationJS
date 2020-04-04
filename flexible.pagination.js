@@ -92,7 +92,10 @@ Flexible.Pagination = function(options){
         alert("Ajax Error  - See Console for details!");
         console.log(error);
     };
-
+    
+    defaultOption.search.onClick = false;
+    defaultOption.search.onClickSelector = '';
+    
     if (typeof options === 'undefined') {
         options = defaultOption;
     }
@@ -149,6 +152,9 @@ Flexible.Pagination = function(options){
                                     this.pagingControlsContainer+" ul{display:inline; padding-left: 0.2em} " +
                                     this.pagingControlsContainer+" li{display:inline; padding-left: 0.2em}" +
                                 "</style>";
+    
+    this.search.onClick = false;
+    this.search.onClickSelector = '';
 
     /**Private Property Below */
     this.instanceId = Math.floor(Math.random() * 20);
@@ -413,12 +419,20 @@ Flexible.PaginationController = function(pager){
     controller.onPageClick = function (pageNumber, event) {
         return true;
     };
-
-    /**@search Text field control */
-    body.on("keyup", pager.searchBoxSelector, function(e){
-        pager.searchPhrase = $(this).val();
-        controller.showFirstPage();
-    });
+    
+    if (pager.search.onClick){
+        body.on("click", pager.search.onClickSelector, function(e){
+            pager.searchPhrase = $(pager.searchBoxSelector).val();
+            controller.showFirstPage();
+        });
+    }
+    else {
+        /**@search Text field control */
+        body.on("keyup", pager.searchBoxSelector, function(e){
+            pager.searchPhrase = $(this).val();
+            controller.showFirstPage();
+        });
+    }
 
     /**@dropDown for selecting Items Per Page */
     body.on("change", pager.itemsPerPageSelector, function(e){
