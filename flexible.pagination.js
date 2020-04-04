@@ -113,6 +113,11 @@ Flexible.Pagination = function(options){
         var value = getOption('css'), defaultValue = defaultOption['css'];
         return (typeof value[cssFieldName] === 'undefined') ? defaultValue[cssFieldName] : value[cssFieldName];
     };
+    
+    var getSearchBoxOption = function(searchFieldName){
+        var value = getOption('search'), defaultValue = defaultOption['search'];
+        return (typeof value[searchFieldName] === 'undefined') ? defaultValue[searchFieldName] : value[searchFieldName];
+    };
 
     this.itemsPerPageSelector = getOption('itemsPerPageSelector');
     this.itemsPerPage = getOption('itemsPerPage');
@@ -153,8 +158,8 @@ Flexible.Pagination = function(options){
                                     this.pagingControlsContainer+" li{display:inline; padding-left: 0.2em}" +
                                 "</style>";
     
-    this.search.onClick = false;
-    this.search.onClickSelector = '';
+    this.search.onClick = getSearchBoxOption('onClick');
+    this.search.onClickSelector = getSearchBoxOption('onClickSelector');
 
     /**Private Property Below */
     this.instanceId = Math.floor(Math.random() * 20);
