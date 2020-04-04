@@ -92,7 +92,7 @@ Flexible.Pagination = function(options){
         alert("Ajax Error  - See Console for details!");
         console.log(error);
     };
-    
+    defaultOption.search = {};
     defaultOption.search.onClick = false;
     defaultOption.search.onClickSelector = '';
     
@@ -157,7 +157,8 @@ Flexible.Pagination = function(options){
                                     this.pagingControlsContainer+" ul{display:inline; padding-left: 0.2em} " +
                                     this.pagingControlsContainer+" li{display:inline; padding-left: 0.2em}" +
                                 "</style>";
-    
+								
+    this.search = getOption('search');
     this.search.onClick = getSearchBoxOption('onClick');
     this.search.onClickSelector = getSearchBoxOption('onClickSelector');
 
