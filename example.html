@@ -165,6 +165,10 @@
                 btnLastClass: 'btn btn-sm btn-success',
                 btnNextClass: 'btn btn-sm btn-success',
                 btnPreviousClass: 'btn btn-sm btn-success'
+            },
+            search {
+                onClick: false,
+                onClickSelector: ''
             }
         });
         flexiblePagination.getController().onPageClick = function(pageNum, e){
@@ -177,6 +181,8 @@
 //        pager.pagingContainer = '#content';
 //        pager.itemSelector = 'div.result:visible';  //That is, Select and paginate only the filtered visible '.result' div.
 //        pager.pagingControlsContainer = '#pagingControls';
+//        pager.search.onClick = false;
+//        pager.search.onClickSelector = '';        
 //        pager.showCurrentPage();
     });
 
