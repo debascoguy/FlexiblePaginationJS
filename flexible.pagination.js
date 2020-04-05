@@ -92,9 +92,9 @@ Flexible.Pagination = function(options){
         alert("Ajax Error  - See Console for details!");
         console.log(error);
     };
-    defaultOption.search = {};
-    defaultOption.search.onClick = false;
-    defaultOption.search.onClickSelector = '';
+    defaultOption.searchBox = {};
+    defaultOption.searchBox.onClick = false;
+    defaultOption.searchBox.onClickSelector = '';
     
     if (typeof options === 'undefined') {
         options = defaultOption;
@@ -115,7 +115,7 @@ Flexible.Pagination = function(options){
     };
     
     var getSearchBoxOption = function(searchFieldName){
-        var value = getOption('search'), defaultValue = defaultOption['search'];
+        var value = getOption('searchBox'), defaultValue = defaultOption['searchBox'];
         return (typeof value[searchFieldName] === 'undefined') ? defaultValue[searchFieldName] : value[searchFieldName];
     };
 
@@ -158,10 +158,10 @@ Flexible.Pagination = function(options){
                                     this.pagingControlsContainer+" li{display:inline; padding-left: 0.2em}" +
                                 "</style>";
 								
-    this.search = getOption('search');
-    this.search.onClick = getSearchBoxOption('onClick');
-    this.search.onClickSelector = getSearchBoxOption('onClickSelector');
-
+    this.searchBox = getOption('searchBox');
+    this.searchBox.onClick = getSearchBoxOption('onClick');
+    this.searchBox.onClickSelector = getSearchBoxOption('onClickSelector');
+	
     /**Private Property Below */
     this.instanceId = Math.floor(Math.random() * 20);
     this.controller = null;
@@ -377,7 +377,7 @@ Flexible.Pagination = function(options){
 Flexible.PaginationController = function(pager){
 
     var body = $('body'), controller = this, instanceId = pager.instanceId;
-
+	
     /**
      * @showPage
      * @param page
@@ -425,9 +425,9 @@ Flexible.PaginationController = function(pager){
     controller.onPageClick = function (pageNumber, event) {
         return true;
     };
-    
-    if (pager.search.onClick){
-        body.on("click", pager.search.onClickSelector, function(e){
+    	
+    if (pager.searchBox.onClick){
+        body.on("click", pager.searchBox.onClickSelector, function(e){
             pager.searchPhrase = $(pager.searchBoxSelector).val();
             controller.showFirstPage();
         });
