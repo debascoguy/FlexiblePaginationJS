@@ -12,12 +12,43 @@
 
 <script src="Flexible.Pagination.js"></script>
 
+<style>
+.hide{display: none;}
+
+#pagination{
+    margin-top: 20px;
+    text-align: center;
+}
+
+
+.result{
+    min-height: 20px;
+    padding: 19px;
+    margin-top: 20px;
+    background-color: #ecf0f1;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
+}
+
+#showingInfo{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+</style>
+
 </head>
 <body>
-<style>.hide{display: none;}</style>
 
+  <input class="searchBox form-control" placeholder="Search Something. E.g. jQueryScript">
+   <button id="butop">Search</button>
+
+  
 <div id="content">
-
+  
+  
 <div class="result ">
 <p>loginEmail : debascoguy@gmail.com</p>
 <p>username : debascoguy</p>
@@ -25,7 +56,7 @@
 <p>info : The author of Flexible Pagiantion JS, Simple Table Data, and Others.</p>
 </div>
 <div class="result ">
-<p>loginEmail : debascoguy@gmail.com</p>
+<p>loginEmail : xxxxxuy@gmail.com</p>
 <p>username : debascoguy</p>
 <p>email : aina.ademolac@gmail.com</p>
 <p>info : The author of Flexible Pagiantion JS, Simple Table Data, and Others.</p>
@@ -159,7 +190,8 @@
     $(function() {
 
         var flexiblePagination = $('#content').flexiblePagination({
-            itemsPerPage : 1,
+            itemsPerPage : 2,
+            displayedPages: 3,
             itemSelector : 'div.result:visible',
             pagingControlsContainer : '#pagingControls',
             showingInfoSelector : '#showingInfo',
@@ -170,9 +202,9 @@
                 btnNextClass: 'btn btn-sm btn-success',
                 btnPreviousClass: 'btn btn-sm btn-success'
             },
-            search: {
-                onClick: false,
-                onClickSelector: ''
+            searchBox: {
+                onClick: true,
+                onClickSelector: '#butop'
             }
         });
         flexiblePagination.getController().onPageClick = function(pageNum, e){
