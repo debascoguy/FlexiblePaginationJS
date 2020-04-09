@@ -203,7 +203,7 @@
                 btnPreviousClass: 'btn btn-sm btn-success'
             },
             searchBox: {
-                onClick: true,
+                onClick: true,  //If this is turn to false, the search-box will filter view on keyup.
                 onClickSelector: '#butop'
             }
         });
@@ -217,8 +217,8 @@
 //        pager.pagingContainer = '#content';
 //        pager.itemSelector = 'div.result:visible';  //That is, Select and paginate only the filtered visible '.result' div.
 //        pager.pagingControlsContainer = '#pagingControls';
-//        pager.search.onClick = false;
-//        pager.search.onClickSelector = '';        
+//        pager.searchBox.onClick = false;
+//        pager.searchBox.onClickSelector = '';        
 //        pager.showCurrentPage();
     });
 
